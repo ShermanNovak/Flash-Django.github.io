@@ -1,0 +1,85 @@
+{% extends "flash/layout.html" %}
+{% load static %}
+
+{% block body %}
+
+    {% if message %}
+        <div class="alert alert-light" role="alert">{{ message }}</div>
+    {% endif %}
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col">
+                <h2>{{ user.username }}</h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <h4>My Decks</h4>
+                <table class="table">
+                    <tr>
+                        <th>Deck</th>
+                        <th></th>
+                        <th>Last Accessed</th>
+                        <th></th>
+                    </tr>
+
+                    {% for deck in decks %}
+                        <tr id="deck_row_{{ deck.id }}">
+                            <td>{{ deck.deck_name }}</td>
+                            <td>
+                                <a href="{% url 'notes' deck.id "notes" %}" class="btn">Notes</a>
+                                <a href="{% url 'view_cards' deck.id %}" class="btn">Cards</a>
+                            </td>
+                            <td>{{ deck.last_accessed }}</td>
+                            <td>
+                                <a href="{% url 'notes' deck.id "edit" %}" class="btn">Edit</a>
+                                <button class="delete-button btn" data-deckid="{{ deck.id }}" >Delete</button>
+                                {% if deck.public == False %}
+                                    <button class="public-button btn" data-deckid="{{ deck.id }}" >Make Public</button>
+                                {% else %}
+                                    <button class="private-button btn" data-deckid="{{ deck.id }}" >Make Private</button>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <h4>Liked Decks</h4>
+                <table class="table">
+                    <tr>
+                        <th>Deck</th>
+                        <th></th>
+                        <th>Last Accessed</th>
+                        <th></th>
+                    </tr>
+
+                    {% for like, time in liked %}
+                        <tr id="deck_row_{{ like.id }}">
+                            <td>{{ like.deck_name }}</td>
+                            <td>
+                                <a href="{% url 'notes' like.id "notes" %}" class="btn btn-outline-dark">Notes</a>
+                                <a href="{% url 'view_cards' like.id %}" class="btn btn-outline-dark">Cards</a>
+                            </td>
+                            <td>{{ time.last_accessed }}</td>
+                            <td>
+                                <button class="unlike-button btn" data-deckid="{{ like.id }}" >Unlike</button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+                
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'flash/home.js' %}"></script>
+{% endblock %}

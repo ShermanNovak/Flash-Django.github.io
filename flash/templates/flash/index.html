@@ -1,0 +1,41 @@
+{% extends "flash/layout.html" %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h2>This is Flash</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <br>
+                <h6>Create Flashcards IN ONE SHOT!</h6> 
+                    <p>No need to go through the pain of making each card individually.
+                    <br>Type everything in a single page.</p>    
+                <br>
+                <h6>Create Flashcards in Markdown Syntax!</h6>
+                    <p>Add a '#' before a card header (the front of a card), and a '\' before the card contents (the back of the card).
+                    <br>Use <a href="https://www.markdownguide.org/basic-syntax/">markdown syntax</a> to format your notes and cards.</p>
+                <br>
+                <h6>Rate Cards according to how well you remember them!</h6>
+                    <p>Cards can be given the colors: Green 
+                    <span style="border-radius: 50%; height: 15px; width: 15px; background-color: green; display: inline-block;"></span>
+                    , Yellow
+                    <span style="border-radius: 50%; height: 15px; width: 15px; background-color: yellow; display: inline-block;"></span>
+                    , Red 
+                    <span style="border-radius: 50%; height: 15px; width: 15px; background-color: red; display: inline-block;"></span>
+                    and Grey.
+                    <span style="border-radius: 50%; height: 15px; width: 15px; background-color: grey; display: inline-block;"></span>
+                    <br>Simply 
+                    <input checked type="checkbox">
+                    tick the Status box in the Cards page to start rating cards.<p>
+                <br>
+                <h6>Sketch on the side while you test yourself!</h6>
+                    <p>Clicking on 
+                    <button class="btn">Add Sketchpad</button>
+                    in the Cards page adds a whiteboard for you to write down ideas.</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

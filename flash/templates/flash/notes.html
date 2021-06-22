@@ -1,0 +1,30 @@
+{% extends "flash/layout.html" %}
+{% block body %}
+
+    {% if message %}
+        <div class="alert alert-light" role="alert">{{ message }}</div>
+    {% endif %}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h2>{{ deck.deck_name | safe }}</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-9">
+                {% for card in cards %}
+                    {{ card.card_header | safe }}
+                    {{ card.card_content | safe }}
+                {% endfor %}
+            </div>
+
+            <div class="col-3">
+                {% if user == deck.owner_id %}
+                    <a href="{% url 'notes' deck.id "edit" %}" class="btn btn-outline-dark">Edit</a>
+                {% endif %}
+                <a href="{% url 'view_cards' deck.id %}" class="btn btn-outline-dark">Cards</a>
+            </div> 
+
+        </div>
+    </div>  
+{% endblock %}

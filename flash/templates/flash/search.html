@@ -1,0 +1,84 @@
+{% extends "flash/layout.html" %}
+{% load static %}
+
+{% block body %}
+
+    {% if message %}
+        <div class="alert alert-light" role="alert">{{ message }}</div>
+    {% endif %}
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-10">
+                <h2>Search Results</h2>
+            </div>
+            <div class="col-2">
+                <form action="{% url 'search' %}" method="post">
+                    {% csrf_token %}
+                    <input class="search" type="text" name="search" placeholder="Search Decks">
+                </form>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <table class="table">
+                    <tr>
+                        <th>Deck</th>
+                        <th></th>
+                        <th>Owner</th>
+                        <th></th>
+                    </tr>
+                    {% if user.is_authenticated %}
+                        {% for deck, like_check in zipped %}
+                            <tr id="deck_row_{{ deck.id }}">
+                                <td>{{ deck.deck_name }}</td>
+                                <td>
+                                    <a href="{% url 'notes' deck.id "notes" %}" class="btn btn-outline-dark">Notes</a>
+                                    <a href="{% url 'view_cards' deck.id %}" class="btn btn-outline-dark">Cards</a>
+                                </td>
+                                <td>{{ deck.owner_id }}</td>
+                                <td>
+                                    {% if deck.owner_id != user %}
+                                        {% if like_check %}
+                                            <button class="unlike-button btn btn-outline-dark" data-deckid="{{ deck.id }}" >Unlike</button>
+                                        {% else %}
+                                            <button class="like-button btn btn-outline-dark" data-deckid="{{ deck.id }}" >Like</button>
+                                        {% endif %}
+                                    {% else %}
+                                        <a href="{% url 'notes' deck.id "edit" %}" class="btn btn-outline-dark">Edit</a>
+                                        <button class="delete-button btn btn-outline-dark" data-deckid="{{ deck.id }}" >Delete</button>
+                                        {% if deck.public == False %}
+                                            <button class="public-button btn btn-outline-dark" data-deckid="{{ deck.id }}" >Make Public</button>
+                                        {% else %}
+                                            <button class="private-button btn btn-outline-dark" data-deckid="{{ deck.id }}" >Make Private</button>
+                                        {% endif %}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        {% for deck in zipped %}
+                            <tr id="deck_row_{{ deck.id }}">
+                                <td>{{ deck.deck_name }}</td>
+                                <td>
+                                    <a href="{% url 'notes' deck.id "notes" %}" class="btn btn-outline-dark">Notes</a>
+                                    <a href="{% url 'view_cards' deck.id %}" class="btn btn-outline-dark">Cards</a>
+                                </td>
+                                <td>{{ deck.owner_id }}</td>
+                                <td></td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                </table>
+            
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'flash/public.js' %}"></script>
+    <script src="{% static 'flash/home.js' %}"></script>
+{% endblock %}

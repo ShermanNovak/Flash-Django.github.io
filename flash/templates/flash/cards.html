@@ -1,0 +1,53 @@
+{% extends "flash/layout.html" %}
+{% load static %}
+
+{% block body %}
+
+    {% if message %}
+        <div class="alert alert-light" role="alert">{{ message }}</div>
+    {% endif %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h2 id="deck_name" data-deckid="{{ deck.id }}">{{ deck.deck_name }}</h2>
+            </div>
+        </div>   
+        <div class="row">
+            <div class="col-8">
+                <div id="cards">
+                </div>
+            </div>
+
+            <div class="col-4">
+                {% if user.is_authenticated %}
+                    <input type="checkbox" id="status_checkbox">
+                    <label>Status</label>
+                    <br>
+
+                    <label>Filter:</label>
+                    <select id="filter">
+                        <option selected value>All Cards</option>
+                        <option value="red">Red</option>
+                        <option value="yellow">Yellow</option>
+                        <option value="green">Green</option>
+                        <option value="grey">Grey</option>
+                    </select>
+                    <br>
+
+                    {% if user == deck.owner_id %}
+                        <a href="{% url 'notes' deck.id "edit" %}" class="btn">Edit</a>
+                    {% endif %}
+                {% endif %}
+
+                <a href="{% url 'notes' deck.id "notes" %}" class="btn">Notes</a>
+                <button id="add_sketchpad" class="btn">Add Sketchpad</button>
+                <div id="sketchpad"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'flash/cards.js' %}"></script>
+{% endblock %}

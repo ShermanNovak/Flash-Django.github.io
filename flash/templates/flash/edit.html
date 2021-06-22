@@ -1,0 +1,58 @@
+{% extends "flash/layout.html" %}
+{% load static %}
+
+{% block body %}
+
+    {% if message %}
+        <div class="alert alert-light" role="alert">{{ message }}</div>
+    {% endif %}
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col">
+                <h2>Edit</h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-7">
+                <form action="{% url 'notes' deck.id "edit" %}" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <textarea autofocus class="form-control textarea" name="textarea">{{ deck.notes_format }}</textarea>
+                    </div>
+                    <input class="btn btn-outline-dark" type="submit" value="Edit Deck">
+                </form>
+            </div>
+            
+            <div class="col-2">
+                <a href="{% url 'notes' deck.id "notes" %}" class="btn">Notes</a>
+                <a href="{% url 'view_cards' deck.id %}" class="btn">Cards</a>
+            </div>
+
+            <div class="col-3">
+                <h6>Basic rules:</h6>
+                    <p>Add a '#' before a card header (the front of a card), and a '\' before the card contents (the back of the card).</p>
+                    <p>Use <a href="https://www.markdownguide.org/basic-syntax/">markdown syntax</a> to format your notes and cards.</p>
+                <h6>For example:</h6>
+                    <p>deck name
+                    <br>#header1
+                    <br>\</p>
+                    <p></p>
+                    <p>- content1.1
+                    <br>- content1.2</p>
+                    <p></p>
+                    <p>#header2
+                    <br>\</p>
+                    <p></p>
+                    <p>- content2.1
+                    <br>- content2.2</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'flash/createoredit.js' %}"></script>
+{% endblock %}
